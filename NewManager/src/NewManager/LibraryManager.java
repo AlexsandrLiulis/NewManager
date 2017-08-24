@@ -3,8 +3,8 @@ package NewManager;
 import java.util.ArrayList;
 
 public class LibraryManager {
-    private int countThings; // убрал статическую переменную
-    private int thingId = 0; //  присвоение уникального id номера для каждой созданной вещи
+    private int countThings;
+    private int thingId = 0;
 
     ArrayList<Thing> library = new ArrayList<>();
 
@@ -12,19 +12,18 @@ public class LibraryManager {
         this.library.add(thing);
         this.countThings++;
         thing.setIsbn(++thingId);
-        return this; // Вернул ссылку на экзэмпляр текущего класса для использования chein при добавлении книги
-    }
-
-    // Поиск книги по номеру в списке
-    public void removeAllBook() {
-        for (int i = 0; i < countThings; ) {
-            library.remove(i);
-            countThings--;
-        }
+        return this;
     }
 
     public ArrayList<Thing> getLibrary() {
         return library;
+    }
+
+    public void removeAllThings() {
+        for (int i = 0; i < countThings; ) {
+            library.remove(i);
+            countThings--;
+        }
     }
 
     public void removeOfListNumber(int number) {
@@ -32,19 +31,17 @@ public class LibraryManager {
         countThings--;
     }
 
-    // Переделал вывод библиотеки по списку
-    public void showAllLibrary() {
+    public void showAllThings() {
         for (int i = 0; i < library.size(); i++) {
             Thing thing = library.get(i);
-            System.out.println(i + 1 + " " + thing.getType());
+            System.out.println(i + 1 + " " + thing.showMe());
         }
     }
 
-    // Вывод всех Id номеров книг
-    public void showAllIdBooks() {
+    public void showAllIdThings() {
         for (int i = 0; i < library.size(); i++) {
            Thing thing = library.get(i);
-            System.out.println("Id номер " + thing.getIsbn() + ": " + thing.getType());
+            System.out.println(thing.showId());
         }
     }
 
@@ -55,6 +52,16 @@ public class LibraryManager {
             }
         }
         return null;
+    }
+
+    public int removeOfId(int id) {
+        for (Thing thing : library) {
+            if (thing.getIsbn() == id) {
+                library.remove(thing);
+                return 1;
+            }
+        }
+        return 0;
     }
 
     public int getCountThings() {

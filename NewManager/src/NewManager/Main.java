@@ -10,7 +10,7 @@ public class Main {
                 .addThing(new Magnet("Belarus"))
                 .addThing(new Magnet("Ukraine"))
                 .addThing(new Book("Пушкин А.С.", "Руслан и Людмила"))
-                .addThing(new Clothes(42));
+                .addThing(new Clothes(42, "штаны"));
 
         helper.chooseMenu();
     }

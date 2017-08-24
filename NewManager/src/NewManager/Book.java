@@ -17,6 +17,11 @@ public class Book extends Thing{
     public String getTitle() {
         return title;
     }
+
+    public String showMe(){
+        String mess = ("Id номер " + super.getIsbn() + ", " + super.getType() + ", " + author + " - " + title);
+        return mess;
+    }
 }
 
 

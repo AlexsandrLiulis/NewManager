@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Helper {
     private Scanner scanner = new Scanner(System.in);
-    private LibraryManager libraryManager;  // Присвоил ссылочной переменной libraryManager созданный экземпляр класса для использования в методах без передачи параметра.
+    private LibraryManager libraryManager;
 
     public Helper(LibraryManager libraryManager) {
         this.libraryManager = libraryManager;
@@ -13,13 +13,14 @@ public class Helper {
     public void start() {
         System.out.println("Выбирете что нужно сделать:");
         System.out.println("1 - для просмотра количества вещей на полке");
-        System.out.println("2 - для просмотра всего содержимого");
-        System.out.println("3 - для удаления всего содержимого");
-        System.out.println("4 - для добавления вещей");
+        System.out.println("2 - для просмотра всего содержимого полки");
+        System.out.println("3 - для удаления всего содержимого полки");
+        System.out.println("4 - для добавления вещей на полку");
         System.out.println("5 - для удаления вещи");
         System.out.println("6 - для поиска вещи");
-        System.out.println("7 - для просмотра ID номеров вещей"); // добавил просмотр Id номеров
-        System.out.println("8 - для поиска по ID номеру вещи"); // добавил поиск по Id номеру
+        System.out.println("7 - для просмотра ID номеров вещей");
+        System.out.println("8 - для поиска по ID номеру вещи");
+        System.out.println("9 - для удаления по ID номеру вещи");
         System.out.println("0 - для выхода");
     }
 
@@ -27,12 +28,12 @@ public class Helper {
         while (true) {
             if (scanner.hasNextInt()) {
                 int x = scanner.nextInt();
-                scanner.nextLine(); // После использования сканера очистил перевод строки
-                if (x >= 0 && x < 9) {
+                scanner.nextLine();
+                if (x >= 0 && x < 10) {
                     int choose = x;
                     return choose;
                 } else {
-                    System.out.println("Введите число 1-8");
+                    System.out.println("Введите число 1-9");
                 }
             } else {
                 String s = scanner.nextLine();
@@ -47,7 +48,6 @@ public class Helper {
                 int x = scanner.nextInt();
                 scanner.nextLine();
                 return x;
-
             } else {
                 String s = scanner.nextLine();
                 System.out.println("Введите число");
@@ -55,18 +55,17 @@ public class Helper {
         }
     }
 
-    public String setAtrib() {
+    public String setSearchThind() {
         String str = scanner.nextLine();
         return str;
     }
 
-    //Удаление книг по номеру
-    public int removeBookOfListNumber() {
+    public int removeThingOfListNumber() {
         System.out.println("Введите номер вещи для удаления");
         while (true) {
             if (scanner.hasNextInt()) {
                 int x = scanner.nextInt();
-                if (x >= 1 && x < libraryManager.getLibrary().size() + 1) {
+                if (x >= 1 && x <= libraryManager.getLibrary().size()) {
                     int number = x - 1;
                     return number;
                 } else {
@@ -79,26 +78,51 @@ public class Helper {
         }
     }
 
-    public void writeBooks() {
-        System.out.println("Введите Ф.И.О. писателя");
-        String fio = setAtrib();
-        System.out.println("Введите произведение");
-        String title = setAtrib();
-        libraryManager.addThing(new Book(fio, title));
-        System.out.println("Книга добавлена");
+    public void addThing() {
+        System.out.println("Введите тип добавляемой вещи");
+        String type = setSearchThind();
+        if (type.toUpperCase().equals("КНИГА")){
+            System.out.println("Введите Ф.И.О. писателя");
+            String fio = setSearchThind();
+            System.out.println("Введите произведение");
+            String title = setSearchThind();
+            libraryManager.addThing(new Book(fio, title));
+            System.out.println("Книга добавлена");
+        }else {if (type.toUpperCase().equals("МАГНИТ")){
+            System.out.println("Введите место приобретения");
+            String place = setSearchThind();
+            libraryManager.addThing(new Magnet(place));
+            System.out.println("Магнит добавлен");
+        }else {
+            if (type.toUpperCase().equals("ОДЕЖДА")){
+                System.out.println("Введите тип одежды");
+                String clothesType = setSearchThind();
+                System.out.println("Введите размер одежды");
+                int size = Integer.parseInt(setSearchThind());
+                libraryManager.addThing(new Clothes(size, clothesType));
+                System.out.println("Одежда добавлена");
+            }else {
+                System.out.println("Неизвестный тип");
+            }
+
+        }
+
+        }
+
+
     }
 
     public void finishMessage() {
         System.out.println("Для выхода - 0");
     }
 
-    public Thing searchBook(String atribut) {
-        String s = atribut;
+    public Thing searchThing(String searchThing) {
+        String s = searchThing;
         for (int i = 0; i < libraryManager.getLibrary().size(); i++) {
-            Thing thing = libraryManager.getLibrary().get(i);
-            if (s.getClass().equals(thing.getClass())) {
+            String str = libraryManager.getLibrary().get(i).getType();
+            if (s.toUpperCase().equals(str.toUpperCase())) {
                 System.out.println("Такая вещь найдена");
-                Thing searh = thing;
+                Thing searh = libraryManager.getLibrary().get(i);
                 return searh;
             }
         }
@@ -121,35 +145,39 @@ public class Helper {
                     if (libraryManager.getCountThings() == 0) {
                         System.out.println("на полке нет вещей");
                     }
-                    libraryManager.showAllLibrary();
+                    libraryManager.showAllThings();
                     finishMessage();
                     break;
                 case 3:
-                    libraryManager.removeAllBook();
+                    libraryManager.removeAllThings();
                     System.out.println("Все вещи удалены");
                     finishMessage();
                     break;
                 case 4:
-                    writeBooks();
+                    addThing();
                     finishMessage();
                     break;
                 case 5:
-                    libraryManager.removeOfListNumber(removeBookOfListNumber());
+                    libraryManager.removeOfListNumber(removeThingOfListNumber());
                     System.out.println("Вещь удалена");
                     finishMessage();
                     break;
                 case 6:
-                    System.out.println("Введите название книги");
-                    Thing search = searchBook(setAtrib());
+                    System.out.println("Введите тип вещи для поиска");
+                    Thing search = searchThing(setSearchThind());
                     if (search != null) {
-                        System.out.println("Id номер " + search.getIsbn() + ": " + search.getClass());
+                        for (Thing thing:libraryManager.getLibrary()) {
+                            if (thing.getType().equals(search.getType())){
+                                System.out.println(thing.showMe());
+                            }
+                        }
                     } else {
-                        System.out.println("Нет такой книги в библиотеке");
+                        System.out.println("Вещи с таким типом не найдено");
                     }
                     finishMessage();
                     break;
                 case 7:
-                    libraryManager.showAllIdBooks();
+                    libraryManager.showAllIdThings();
                     finishMessage();
                     break;
                 case 8:
@@ -157,9 +185,18 @@ public class Helper {
                     Thing thing = libraryManager.searchOfId(setId());
                     if (thing != null) {
                         System.out.println("Вещь с таким Id номером найдена");
-                        System.out.println("Id номер " + thing.getIsbn() + ": " + thing.getClass());
+                        System.out.println(thing.showMe());
                     } else {
-                        System.out.println("Вещи с таким Id номером в библиотеке нет");
+                        System.out.println("Вещи с таким Id номером не найдено");
+                        finishMessage();
+                        break;
+                    }
+                case 9:
+                    System.out.println("Введите Id номер удаляемой вещи");
+                    if (libraryManager.removeOfId(setId()) == 1) {
+                        System.out.println("Вещь с таким Id номером удалена");
+                    } else {
+                        System.out.println("Вещи с таким Id номером не найдено");
                         finishMessage();
                         break;
                     }

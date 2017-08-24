@@ -22,4 +22,14 @@ public abstract class Thing {
     public String getType() {
         return type;
     }
+
+    public String showMe(){
+        String mess = ("Id номер " + isbn + ", тип " + type);
+        return mess;
+    }
+
+    public String showId(){
+        String mess = ("Id номер " + isbn + ", тип " + type);
+        return mess;
+    }
 }
