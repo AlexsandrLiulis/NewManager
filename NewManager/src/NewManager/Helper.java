@@ -61,15 +61,16 @@ public class Helper {
     }
 
     public int removeThingOfListNumber() {
+        int sizeLibrary = libraryManager.getLibrary().size();
         System.out.println("Введите номер вещи для удаления");
         while (true) {
             if (scanner.hasNextInt()) {
                 int x = scanner.nextInt();
-                if (x >= 1 && x <= libraryManager.getLibrary().size()) {
+                if (x >= 1 && x <= sizeLibrary) {
                     int number = x - 1;
                     return number;
                 } else {
-                    System.out.println("Введите число 1-" + libraryManager.getLibrary().size());
+                    System.out.println("Введите число 1-" + sizeLibrary);
                 }
             } else {
                 String s = scanner.nextLine();
@@ -81,35 +82,32 @@ public class Helper {
     public void addThing() {
         System.out.println("Введите тип добавляемой вещи");
         String type = setSearchThind();
-        if (type.toUpperCase().equals("КНИГА")){
+        if (type.toUpperCase().equals("КНИГА")) {
             System.out.println("Введите Ф.И.О. писателя");
             String fio = setSearchThind();
             System.out.println("Введите произведение");
             String title = setSearchThind();
             libraryManager.addThing(new Book(fio, title));
             System.out.println("Книга добавлена");
-        }else {if (type.toUpperCase().equals("МАГНИТ")){
-            System.out.println("Введите место приобретения");
-            String place = setSearchThind();
-            libraryManager.addThing(new Magnet(place));
-            System.out.println("Магнит добавлен");
-        }else {
-            if (type.toUpperCase().equals("ОДЕЖДА")){
-                System.out.println("Введите тип одежды");
-                String clothesType = setSearchThind();
-                System.out.println("Введите размер одежды");
-                int size = Integer.parseInt(setSearchThind());
-                libraryManager.addThing(new Clothes(size, clothesType));
-                System.out.println("Одежда добавлена");
-            }else {
-                System.out.println("Неизвестный тип");
+        } else {
+            if (type.toUpperCase().equals("МАГНИТ")) {
+                System.out.println("Введите место приобретения");
+                String place = setSearchThind();
+                libraryManager.addThing(new Magnet(place));
+                System.out.println("Магнит добавлен");
+            } else {
+                if (type.toUpperCase().equals("ОДЕЖДА")) {
+                    System.out.println("Введите тип одежды");
+                    String clothesType = setSearchThind();
+                    System.out.println("Введите размер одежды");
+                    int size = Integer.parseInt(setSearchThind());
+                    libraryManager.addThing(new Clothes(size, clothesType));
+                    System.out.println("Одежда добавлена");
+                } else {
+                    System.out.println("Неизвестный тип");
+                }
             }
-
         }
-
-        }
-
-
     }
 
     public void finishMessage() {
@@ -166,8 +164,8 @@ public class Helper {
                     System.out.println("Введите тип вещи для поиска");
                     Thing search = searchThing(setSearchThind());
                     if (search != null) {
-                        for (Thing thing:libraryManager.getLibrary()) {
-                            if (thing.getType().equals(search.getType())){
+                        for (Thing thing : libraryManager.getLibrary()) {
+                            if (thing.getType().equals(search.getType())) {
                                 System.out.println(thing.showMe());
                             }
                         }
@@ -186,6 +184,7 @@ public class Helper {
                     if (thing != null) {
                         System.out.println("Вещь с таким Id номером найдена");
                         System.out.println(thing.showMe());
+                        break;
                     } else {
                         System.out.println("Вещи с таким Id номером не найдено");
                         finishMessage();

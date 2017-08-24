@@ -10,16 +10,9 @@ public class Book extends Thing{
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
+    @Override
     public String showMe(){
-        String mess = ("Id номер " + super.getIsbn() + ", " + super.getType() + ", " + author + " - " + title);
+        String mess = ("Id номер " + super.getId() + ", " + super.getType() + ", " + author + " - " + title);
         return mess;
     }
 }

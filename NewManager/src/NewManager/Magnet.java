@@ -9,8 +9,9 @@ public class Magnet  extends Thing{
         this.fromPlace = fromPlace;
     }
 
+    @Override
     public String showMe(){
-        String mess = ("Id номер " + super.getIsbn() + ", " + super.getType() + ", место приобретения " + fromPlace);
+        String mess = ("Id номер " + super.getId() + ", " + super.getType() + ", место приобретения " + fromPlace);
         return mess;
     }
 }

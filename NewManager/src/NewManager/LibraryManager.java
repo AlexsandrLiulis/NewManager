@@ -11,12 +11,8 @@ public class LibraryManager {
     public LibraryManager addThing(Thing thing) {
         this.library.add(thing);
         this.countThings++;
-        thing.setIsbn(++thingId);
+        thing.setId(++thingId);
         return this;
-    }
-
-    public ArrayList<Thing> getLibrary() {
-        return library;
     }
 
     public void removeAllThings() {
@@ -40,14 +36,14 @@ public class LibraryManager {
 
     public void showAllIdThings() {
         for (int i = 0; i < library.size(); i++) {
-           Thing thing = library.get(i);
+            Thing thing = library.get(i);
             System.out.println(thing.showId());
         }
     }
 
     public Thing searchOfId(int id) {
         for (Thing thing : library) {
-            if (thing.getIsbn() == id) {
+            if (thing.getId() == id) {
                 return thing;
             }
         }
@@ -56,12 +52,16 @@ public class LibraryManager {
 
     public int removeOfId(int id) {
         for (Thing thing : library) {
-            if (thing.getIsbn() == id) {
+            if (thing.getId() == id) {
                 library.remove(thing);
                 return 1;
             }
         }
         return 0;
+    }
+
+    public ArrayList<Thing> getLibrary() {
+        return library;
     }
 
     public int getCountThings() {
